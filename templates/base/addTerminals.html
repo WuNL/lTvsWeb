@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/terminals.js"></script>
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+
+
+<div class="content-box"><!-- Start Content Box -->
+
+	<div class="content-box-header">
+
+		<h3>终端列表</h3>
+
+
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+
+	<div class="content-box-content">
+
+		<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+
+			<table>
+
+				<thead>
+					<tr>
+
+						<th>名称</th>
+						<th>终端IP</th>
+
+						<th>编辑</th>
+
+					</tr>
+
+				</thead>
+
+				<tbody id="terminalList">
+					
+							
+						</tbody>
+
+					</table>
+
+				</div> <!-- End #tab1 -->
+
+
+			</div> <!-- End .content-box-content -->
+
+		</div> <!-- End .content-box -->
+
+
+
+
+
+		<div class="content-box"><!-- Start Content Add repo -->
+
+			<div class="content-box-header">
+
+				<h3>添加终端</h3>
+
+				<div class="clear"></div>
+
+			</div> <!-- End .content-box-header -->
+
+			<div class="content-box-content">
+
+				<form id="formCreateChannel"  action="/sdt-hts/addTerminals/" role="form" method="post">
+
+					<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+						{% csrf_token %}
+
+						<p>
+							<label>终端名称:{{terminalForm.name.errors}}</label>
+							{{terminalForm.name}}
+							<br /><small>要添加的终端名称</small>
+						</p>
+						<p>
+							<label>终端IP:{{terminalForm.terminalIP.errors}}</label>
+							{{terminalForm.terminalIP}}
+							<br /><small>要添加的终端IP</small>
+						</p>																									
+						<p>
+							<input id="btnAddTerminal" class="button" type="submit" value="添加终端" />
+						</p>
+
+					</fieldset>
+
+					<div class="clear"></div><!-- End .clear -->
+
+				</form>
+				
+
+
+
+			</div> <!-- End .content-box-content -->
+
+		</div> <!-- End .content-box -->		
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var msg = "{{msg}}";
+
+				if (msg == "error"){
+					$.messager.show({
+						title:'通知!',
+						msg:"{{content}}",
+						timeout:5000,
+						showType:'slide',
+					});		
+				}
+				else if(msg=="success"){
+					$.messager.show({
+						title:'通知!',
+						msg:"{{content}}",
+						timeout:5000,
+						showType:'slide',
+					});			
+				}
+				else if(msg!=""){
+					$.messager.show({
+						title:'通知!',
+						msg:msg,
+						timeout:5000,
+						showType:'slide',
+					});
+				}
+			})
+
+		</script>
+
+
+
+		{% endblock %}

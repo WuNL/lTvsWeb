@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/getMonitorInfo.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+
+<div class="notification success png_bg" id="successMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="successMessage">
+	</div>
+</div>	
+<div class="notification error png_bg" id="errorMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="errorMessage">
+	</div>
+</div>
+
+<div class="clear"></div>
+
+<div class="content-box"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>显示器信息</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content">
+
+		<table>
+			
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>所在GPU</th>
+					<th>显示器名称</th>
+					<th>分辨率</th>
+					<th>刷新率</th>
+					<th>inUse</th>
+				</tr>
+				
+			</thead>
+
+			<tbody id="channelList">
+				
+				{% for channel in channels %}
+				<tr>
+					<td>{{channel.id}}</td>
+					<td>{{channel.GPUSeq}}</td>
+					<td>{{channel.name}}</td>
+					<td>{{channel.resolution}}</td>
+					<td>{{channel.freshRate}}</td>
+					<td>{{channel.inUse}}</td>
+				</tr>
+				{% endfor %}
+				
+			</tbody>
+			
+		</table>
+
+		<p>
+			<input id="getMonitorInfo" class="button" type="submit" value="获取显示设备信息" />
+		</p>
+
+
+	</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->		
+
+
+
+
+
+{% endblock %}

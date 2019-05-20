@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+<div class="clear"></div>
+
+<div class="content-box" style="width:1100px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>丢包检测</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content" >
+
+		<div style="margin:20px 0;"></div>
+		<table style="border:1px solid #98bf21">
+
+			<thead>
+				<tr>
+
+					<th>终端名</th>
+					<th>最后一次丢包时间</th>
+					<th>丢包数</th>
+					<th>总包数</th>
+				</tr>
+
+			</thead>
+
+			<tbody id="packetInfos">
+
+
+			</tbody>
+
+		</table>
+	
+</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->	
+
+<script type="text/javascript">
+	
+	
+	function getPacketInfo(){
+		$.get('/sdt-hts/packetInfo/', function(packetInfoList){
+			$("#packetInfos").html('');
+			var i = 0;
+			var j = 0;
+			var textToInsert = [];	
+			for(i; i < packetInfoList.length; i++){
+				textToInsert[j++] = '<tr class=' + packetInfoList[i].pk + '>';
+				textToInsert[j++] = '<td>' + packetInfoList[i].fields.terminalName + '</td>\n';
+				textToInsert[j++] = '<td>' + packetInfoList[i].fields.latestLostDate + '</td>\n';
+				textToInsert[j++] = '<td>' + packetInfoList[i].fields.lostNumbers + '</td>\n';
+				textToInsert[j++] = '<td>' + packetInfoList[i].fields.totalPacketNumbers + '</td>\n';
+				textToInsert[j++] = '</tr>\n';			
+			}
+			$('#packetInfos').append(textToInsert.join(''));			
+		}, "json");
+	};
+	getPacketInfo();
+	setInterval(getPacketInfo,4000);
+</script>
+
+{% endblock %}

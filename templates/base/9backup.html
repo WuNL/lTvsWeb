@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/configChannel.js"></script>
+<script src="/static/js/repositories.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Creating a School Timetable - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+
+<div class="content-box" style="min-width:1100px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>配置轮巡方案</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content" >
+		<table>
+			<tr>
+				<td style="width:180px">是否启用轮巡:</td>
+				<td><input class="easyui-switchbutton" onText="开" offText="关" id="isPolling" {% ifequal curChannel.polling True %} checked {% endifequal %}   ></td>
+				<td style="width:180px">轮巡间隔时间(秒):</td>
+				<td>
+					<input id="pollingTime" class="easyui-numberspinner" value={{curChannel.pollingTime}} data-options="increment:1" style="width:100px;">
+				</td>
+				<td>
+					<a onclick="pushToDjango()" class="easyui-linkbutton c6" style="width:120px;float:center">保存</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5">
+					<div style="width:1000px;height:auto;">
+						<div class="leftWuNL" id="myLeft">
+							<table id="terminalList" >
+								<tr>
+									<td class="111">终端列表：</td>
+								</tr>			
+								{% for terminal in terminals %}
+								<tr>
+									<td id="leftTD" style="padding:2px;line-height:2em;"><div class="item"><div>{{terminal.name}}</div><div hidden="hidden">{{terminal.pk}}</div></div></td>
+								</tr>				
+								{% endfor %}
+							</table>
+						</div>
+						<div class="rightWuNL">
+							<table id="test" >
+								<tbody >
+
+									<tr>
+
+										<td class="drop" id="1" style="background:rgb(165, 96, 108)"></td>
+										<td class="drop" id="2" style="background:rgb(228, 169, 125)"></td>
+										<td class="drop" id="3" style="background:rgb(187, 235, 178);"></td>
+<!-- 										{% ifequal dstList.0.0 0 %}
+										<td class="drop" id="1" style="background:#E7C99B"></td>
+										{% else %}
+										<td class="drop droppable" id="1"><div style="position: static;" class="item assigned"><div>{{dstList.0.1}}</div><div hidden="hidden">{{dstList.0.0}}</div></div></td>
+										{% endifequal %}
+										{% ifequal dstList.1.0 0 %}
+										<td class="drop" id="2" style="background: #4D7C97;"></td>
+										{% else %}
+										<td class="drop droppable" id="2"><div style="position: static;" class="item assigned"><div>{{dstList.1.1}}</div><div hidden="hidden">{{dstList.1.0}}</div></div></td>
+										{% endifequal %} -->
+
+									</tr>
+									<tr>
+
+										
+										<td class="drop" id="4" style="background:rgb(120, 187, 161)"></td>
+										<td class="drop" id="4" style="background:rgb(120, 173, 187);"></td>
+										<td class="drop" id="4" style="background:rgb(120, 147, 187);"></td>
+
+																								
+<!-- 										{% ifequal dstList.2.0 0 %}
+										<td class="drop" id="3" style="background: #B2D0EB;"></td>
+										{% else %}
+										<td class="drop droppable" id="3"><div style="position: static;" class="item assigned"><div>{{dstList.2.1}}</div><div hidden="hidden">{{dstList.2.0}}</div></div></td>
+										{% endifequal %}
+										{% ifequal dstList.3.0 0 %}
+										<td class="drop" id="4" style="background: #A078BB;"></td>
+										{% else %}
+										<td class="drop droppable" id="4" style="background: #A078BB;"><div style="position: static;" class="item assigned"><div>{{dstList.3.1}}</div><div hidden="hidden">{{dstList.3.0}}</div></div></td>
+										{% endifequal %} -->
+
+									</tr>
+									<tr>
+										<td class="drop" id="4" style="background:rgb(108, 153, 71);"></td>
+										<td class="drop" id="4" style="background:rgb(187, 120, 165);"></td>
+										<td class="drop" id="4" style="background: #A078BB;"></td>
+									</tr>
+
+								</tbody>
+
+
+							</table>
+							<div style="margin:20px 0;"></div>
+							<div class="easyui-panel" style="padding:5px;width:100%;">
+								<a style="width:auto;" href="/sdt-hts/configPolling/{{channelID}}/1/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/1.png"> </a>
+								<a style="width:auto;" href="/sdt-hts/configPolling/{{channelID}}/4/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/4.png"></a>
+								<a style="width:auto;" href="/sdt-hts/configPolling/{{channelID}}/9/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/9.png"></a>
+
+							</div>
+						</div>
+					</div>				
+
+				</td>
+			</tr>
+		</table>
+
+	</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->	
+
+
+<style type="text/css">
+	#leftTD{
+		padding:5px;
+		line-height: 1em;
+	}
+	.leftWuNL {
+		width:200px;
+		height:auto;
+		float:left;
+		border-spacing: 1px;
+		border-collapse: separate;
+	}
+	.leftWuNL #terminalList{
+		background:#E0ECFF;
+		border:solid 1px blue;
+		border-spacing: 1px;
+		border-collapse: separate;
+		padding: 0px;
+	}
+	.leftWuNL td{
+		background:#eee;
+	}
+	.rightWuNL{
+		float:right;
+		width:700px;
+	}
+	.rightWuNL table{
+		background:#E0ECFF;
+		width:100%;
+	}
+	.rightWuNL td{
+		background:#fafafa;
+		text-align:center;
+		padding:2px;
+	}
+	.rightWuNL td{
+		background:#E0ECFF;
+	}
+	.rightWuNL td.drop{
+		background:#fafafa;
+		width:100px;
+	}
+	.rightWuNL td.over{
+		background:#FBEC88;
+	}
+	.item{
+		text-align:center;
+		border:1px solid #499B33;
+		background:#fafafa;
+		width:180px;
+	}
+	.assigned{
+		border:1px solid #BC2A4D;
+	}
+
+</style>
+<script>
+	$.ajaxSetup ({     
+		// Disable caching of AJAX responses    
+		cache: false
+	});
+	var value1;
+	var value2;
+	var value3;
+	var value4;
+	var sourceID = new Array(4);
+	var var1 = new Array();
+	var var2 = new Array();
+	var var3 = new Array();
+	var var4 = new Array();
+	var pollingTime;
+	var isPolling;
+	function pushToDjango(){
+		console.log("pushing");
+		pollingTime = $("#pollingTime").val();
+		isPolling = $("#isPolling").switchbutton("options").checked;
+
+		$("#1").children().each(function(){
+			var1.push($(this).children().eq(1).html());
+		});	
+		$("#2").children().each(function(){
+			var2.push($(this).children().eq(1).html());
+		});	
+		$("#3").children().each(function(){
+			var3.push($(this).children().eq(1).html());
+		});	
+		$("#4").children().each(function(){
+			var4.push($(this).children().eq(1).html());
+		});	
+		$.post("/sdt-hts/configPolling/{{channelID}}/4/",{'var1':var1,'var2':var2,'var3':var3,'var4':var4,'isPolling':isPolling,'pollingTime':pollingTime})
+		var1.length = 0;
+		var2.length = 0;
+		var3.length = 0;									
+		var4.length = 0;
+		// console.log($("#1").children().eq(0).children().eq(1).html());
+		// console.log($("#1").children().eq(1).children().eq(1).html());
+		// console.log($("#1").children().eq(2).children().eq(1).html());
+
+
+		// console.log($("#1").find("div").eq(1).html());
+		// console.log($("#1").find("div").eq(2).html());
+		// console.log($("#1").find("div").eq(4).html());
+		// console.log($("#1").find("div").eq(5).html());		
+		// console.log(value1,value2,value3,value4);
+	};
+
+	$(function(){
+		$('.leftWuNL .item').draggable({
+			revert:true,
+			proxy:'clone'
+		});
+		$('.rightWuNL .item').draggable({
+			revert:true
+			// proxy:'clone'
+		});
+		$('.rightWuNL td.drop').droppable({
+			onDragEnter:function(){
+				console.log("onDragEnter")
+				$(this).addClass('over');
+			},
+			onDragLeave:function(){
+				console.log("onDragLeave")
+				$(this).removeClass('over');
+				sourceID[$(this).eq(0).attr('id')] = $(this).eq(0).attr('id');
+			},
+			onDrop:function(e,source){
+				$(this).removeClass('over');
+				if ($(source).hasClass('assigned')){
+					var c = $(source).addClass('assigned');
+					$(this).append(c);
+					c.draggable({
+						revert:true
+					});		
+					console.log("if");
+					var name = $(source).find('div:eq(0)').html();
+					var pk = $(source).find('div:eq(1)').html();
+					var id = $(this).eq(0).attr('id');
+					var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+					if (id==1){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==2){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==3){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==4){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}					
+					console.log(value1,value2,value3,value4);
+					// $.post("/sdt-hts/configChannel/{{channelID}}/4/",{value1: value1,value2: value2,value3: value3,value4: value4,csrfmiddlewaretoken: csrf})						
+					// location.reload(); 
+				} else {
+					console.log("else");
+					var name = $(source).find('div:eq(0)').html();
+					var pk = $(source).find('div:eq(1)').html();
+					var id = $(this).eq(0).attr('id');
+					var c = $(source).clone().addClass('assigned');
+					$(this).append(c);
+					c.draggable({
+						revert:true
+					});
+
+
+					if (id==1){
+						value1 = $(source).find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==2){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $(source).find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==3){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $(source).find('div:eq(1)').html();
+						value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+					}
+					if(id==4){
+						value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+						value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+						value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+						value4 = $(source).find('div:eq(1)').html();						
+					}					
+					console.log(value1,value2,value3,value4);					
+					var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+					// $.post("/sdt-hts/configChannel/{{channelID}}/4/",{value1: value1,value2: value2,value3: value3,value4: value4,csrfmiddlewaretoken: csrf})						
+
+
+					// location.reload(); 
+				}
+			}
+		});
+		$('.leftWuNL').droppable({
+			accept:'.assigned',
+			onDragEnter:function(e,source){
+				$(source).addClass('trash');
+			},
+			onDragLeave:function(e,source){
+				$(source).removeClass('trash');
+			},
+			onDrop:function(e,source){
+				$(source).remove();
+				var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+				value1 = $("#1").find('div:eq(0)').find('div:eq(1)').html();
+				value2 = $("#2").find('div:eq(0)').find('div:eq(1)').html();
+				value3 = $("#3").find('div:eq(0)').find('div:eq(1)').html();
+				value4 = $("#4").find('div:eq(0)').find('div:eq(1)').html();						
+				
+				console.log(value1,value2,value3,value4);
+				// $.post("/sdt-hts/configChannel/{{channelID}}/4/",{value1: value1,value2: value2,value3: value3,value4: value4,csrfmiddlewaretoken: csrf})
+				
+			}
+		});
+	});
+
+
+</script>
+{% endblock %}

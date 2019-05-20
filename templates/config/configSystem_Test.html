@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+<div class="clear"></div>
+
+<div class="content-box" style="width:1100px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>系统管理</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content" >
+
+		<p>
+			<input id="remoteShutdown" class="button" type="submit" value="远程关机" />
+		</p>
+		<p>
+			<input id="remoteRestart" class="button" type="submit" value="远程重启" />
+		</p>
+		<p>
+			<input id="initTVS" class="button" type="submit" value="向解码成显示程序发送初始化信息" />
+		</p>
+		<p>
+			<input id="endDecoder" class="button" type="submit" value="重启解码器" />
+		</p>				
+		<p>
+			<input id="start1" class="button" type="submit" value="启动显示程序1" />
+			<input id="end1" class="button" type="submit" value="关闭显示程序1" />
+		</p>
+		<p>
+			<input id="start2" class="button" type="submit" value="启动显示程序2" />
+			<input id="end2" class="button" type="submit" value="关闭显示程序2" />
+		</p>	
+
+		<p>
+			<input id="start3" class="button" type="submit" value="启动显示程序3" />
+			<input id="end3" class="button" type="submit" value="关闭显示程序3" />
+		</p>
+		<p>
+			<input id="start4" class="button" type="submit" value="启动显示程序4" />
+			<input id="end4" class="button" type="submit" value="关闭显示程序4" />
+		</p>	
+		<hr>
+		<p>
+			<input id="cleanDB" class="button" type="submit" value="清空数据库" />
+		</p>
+											
+	</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->	
+
+
+<script type="text/javascript">
+	
+	$("#resetDatabase").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"resetDatabase":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('刷新成功').show();
+			
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+	$("#remoteShutdown").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"remoteShutdown":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待关机').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+	$("#remoteRestart").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"remoteRestart":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+	$("#initTVS").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"initTVS":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#start1").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"start1":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#start2").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"start2":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#end1").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"end1":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#end2").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"end2":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});		
+
+
+	$("#start3").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"start3":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#start4").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"start4":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#end3").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"end3":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});	
+	$("#end4").click(function(event){
+
+		$.post("/sdt-hts/configSystem/",{"end4":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+
+	$("#startDecoder").click(function(event){
+		$.post("/sdt-hts/configSystem/",{"startDecoder":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+	$("#endDecoder").click(function(event){
+		$.post("/sdt-hts/configSystem/",{"endDecoder":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+
+	$("#cleanDB").click(function(event){
+		$.post("/sdt-hts/configSystem/",{"cleanDB":"True"})
+		.success(function() {
+			$('#successMessageBox').show();
+			$('#successMessage').html('操作成功，请等待重启').show();
+			$('#errorMessageBox').hide();
+		})
+		.error(function(error) {
+			$('#successMessageBox').hide();
+			$('#errorMessageBox').show();
+			$('#errorMessage').html(error.responseText);
+		});
+	});
+	
+</script>
+
+
+
+
+{% endblock %}

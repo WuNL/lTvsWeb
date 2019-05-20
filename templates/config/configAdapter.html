@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<div class="notification success png_bg" id="successMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="successMessage">
+	</div>
+</div>	
+<div class="notification error png_bg" id="errorMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="errorMessage">
+	</div>
+</div>
+
+<div class="clear"></div>
+
+<table>
+	<tr>
+		{% ifequal networkAdapter1 None %}
+
+		{% else %}
+		<td>
+			<div class="content-box" style="min-width:300px;"><!-- Start Content Add repo -->
+
+				<div class="content-box-header">
+
+					<h3>网卡1</h3>
+
+					<div class="clear"></div>
+
+				</div> <!-- End .content-box-header -->
+
+				<div class="content-box-content">
+					<form id="formCreateChannel"  action="/sdt-hts/configAdapter/" role="form" method="post">
+						<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+							{% csrf_token %}
+
+							<p>
+								<h2>{{networkAdapter1.Description.value}}</h2>
+								<h7 hidden="hidden">{{networkAdapter1.Description}}</h7>
+								<h7 hidden="hidden">{{networkAdapter1.Index}}</h7>
+							</p>									
+							<p>
+								<label>IP地址*:{{networkAdapter1.IP.errors}}</label>
+								{{networkAdapter1.IP}}
+							</p>
+							<p>
+								<label>子网掩码*:{{networkAdapter1.IPSubnet.errors}}</label>
+								{{networkAdapter1.IPSubnet}}
+							</p>
+							<p>
+								<label>网关*:{{networkAdapter1.DefaultIPGateway.errors}}</label>
+								{{networkAdapter1.DefaultIPGateway}}
+							</p>																																					
+							<p>
+								<input id="btnCreateChannel1" class="button" type="submit" value="保存" />
+							</p>
+
+						</fieldset>
+
+						<div class="clear"></div><!-- End .clear -->		
+
+
+					</form>
+				</div> <!-- End .content-box-content -->
+
+			</div> <!-- End .content-box -->
+		</td>
+		{% endifequal %}
+		{% ifequal networkAdapter2 None %}
+
+		{% else %}		
+		<td>
+			<div class="content-box" style="min-width:300px;"><!-- Start Content Add repo -->
+
+				<div class="content-box-header">
+
+					<h3>网卡2</h3>
+
+					<div class="clear"></div>
+
+				</div> <!-- End .content-box-header -->
+
+				<div class="content-box-content">
+					<form id="formCreateChannel"  action="/sdt-hts/configAdapter/" role="form" method="post">
+						<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+							{% csrf_token %}
+
+							<p>
+								<h2>{{networkAdapter2.Description.value}}</h2>
+								<h7 hidden="hidden">{{networkAdapter2.Description}}</h7>
+								<h7 hidden="hidden">{{networkAdapter2.Index}}</h7>								
+							</p>									
+							<p>
+								<label>IP地址*:{{networkAdapter2.IP.errors}}</label>
+								{{networkAdapter2.IP}}
+							</p>
+							<p>
+								<label>子网掩码*:{{networkAdapter2.IPSubnet.errors}}</label>
+								{{networkAdapter2.IPSubnet}}
+							</p>
+							<p>
+								<label>网关*:{{networkAdapter2.DefaultIPGateway.errors}}</label>
+								{{networkAdapter2.DefaultIPGateway}}
+							</p>																																						
+							<p>
+								<input id="btnCreateChannel1" class="button" type="submit" value="保存" />
+							</p>
+							
+						</fieldset>
+						
+						<div class="clear"></div><!-- End .clear -->		
+						
+
+					</form>
+
+				</div> <!-- End .content-box-content -->
+
+			</div> <!-- End .content-box -->
+
+		</td>
+		{% endifequal %}		
+	</tr>
+</table>
+
+
+
+
+
+
+
+{% endblock %}

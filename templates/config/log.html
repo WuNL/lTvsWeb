@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+
+<div class="notification success png_bg" id="successMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="successMessage">
+	</div>
+</div>	
+<div class="notification error png_bg" id="errorMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="errorMessage">
+	</div>
+</div>
+
+
+
+
+<div class="clear"></div>
+
+<div class="content-box" style="width:1100px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>日志管理</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content" >
+
+		<table>
+			<tr>
+<!-- 				<td style="width:110px">是否记录调试日志:</td>
+				<td><input class="easyui-switchbutton" onText="开" offText="关" id="saveDebugInfo" {% ifequal debugStatus.debugStatus True %} checked {% endifequal %}   ></td>
+				
+				<td>
+					<a onclick="pushToDjango()" class="easyui-linkbutton c6" style="width:120px;float:center">保存配置</a>
+				</td> -->
+<!-- 				<td style="width:25%">
+					<a href="/sdt-hts/downloadDebugLog/" class="easyui-linkbutton c6" style="width:120px;float:center">下载调试日志</a>
+				</td>
+				<td style="width:25%">
+					<a onclick="clearDebugLog()" class="easyui-linkbutton c6" style="width:120px;float:center">清空调试日志</a>
+				</td>
+				<td></td><td></td> -->
+			</tr>		
+
+		</table>
+		<div style="margin:20px 0;"></div>
+		<table style="border:1px solid #98bf21">
+
+			<thead>
+				<tr>
+					<th> <a href="/sdt-hts/exportUserLogAsCSV/" class="easyui-linkbutton c6" style="width:120px;float:center">下载用户日志</a> </th>
+					<th><a onclick="clearUserLog()" class="easyui-linkbutton c6" style="width:120px;float:center">清空用户日志</a></th>
+
+				</tr>
+				<tr>
+
+					<th>操作者</th>
+					<th>日期</th>
+					<th>操作对象</th>
+					<th>动作</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				{% for item in ulList %}
+				<tr>
+					<td> {{item.user}}</td>
+					<td> {{item.date}}</td>
+					<td> {{item.target}}</td>
+					<td> {{item.content}}</td>
+				</tr>
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+<!-- 		<hr>
+		请选择日志时间范围（天）:
+		<div style="margin-bottom:20px">
+			<input class="easyui-numberspinner" value="30" data-options="labelPosition:'top',spinAlign:'vertical',onChange: function(value){
+			$('#ww').attr('href','/sdt-hts/log/'+value+'/');
+		}" style="width:100%;max-width:60px;text-align:center">
+	</div>
+	<a id="ww" style="width:auto;" href="/sdt-hts/log/30/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> DOWNLOAD</a> -->
+	
+</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->	
+
+
+<script>
+	$.ajaxSetup ({     
+		// Disable caching of AJAX responses    
+		cache: false
+	});
+	function pushToDjango(){
+		saveDebugInfo = $("#saveDebugInfo").switchbutton("options").checked;
+		$.post("/sdt-hts/saveDebugInfo/",{'saveDebugInfo':saveDebugInfo},
+			function(data){
+				if(data!="success"){
+					$.messager.show({
+						title:'警告!',
+						msg:data,
+						timeout:5000,
+						showType:'slide',
+					});
+				}
+				else{
+					$.messager.show({
+						title:'通知!',
+						msg:'保存成功！',
+						timeout:5000,
+						showType:'slide',
+					});					
+				}
+			})		
+	}
+	function clearDebugLog(){
+		$.post("/sdt-hts/clearDebugLog/",
+			function(data){
+				if(data!="success"){
+					$.messager.show({
+						title:'警告!',
+						msg:data,
+						timeout:5000,
+						showType:'slide',
+					});
+				}
+				else{
+					$.messager.show({
+						title:'通知!',
+						msg:'清除调试日志成功！',
+						timeout:5000,
+						showType:'slide',
+					});					
+				}
+			})		
+	}
+	function clearUserLog(){
+		$.post("/sdt-hts/clearUserLog/",
+			function(data){
+				if(data!="success"){
+					$.messager.show({
+						title:'警告!',
+						msg:data,
+						timeout:5000,
+						showType:'slide',
+					});
+				}
+				else{
+					$.messager.show({
+						title:'通知!',
+						msg:'清除用户日志成功！',
+						timeout:5000,
+						showType:'slide',
+					});	
+					setTimeout('location.reload()',2000);			
+				}
+			})		
+	}
+</script>
+
+
+
+
+{% endblock %}

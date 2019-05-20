@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/configChannel.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Creating a School Timetable - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+<div style="margin:20px 0 10px 0;">
+</div>
+<div id="p" class="easyui-panel" title="Fluid Panel" style="width:100%;min-width:700px;height:800px;padding:10px;">
+			<div style="width:700px;">
+				<div class="leftWuNL" id="myLeft">
+					<table id="terminalList">
+						<tr>
+							<td class="111">终端列表：</td>
+						</tr>			
+						{% for terminal in terminals %}
+						<tr>
+							<td><div class="item">{{terminal.name}}</div></td>
+						</tr>				
+						{% endfor %}
+					</table>
+				</div>
+				<div class="rightWuNL">
+					<table id="test" >
+					<tbody id="test1">
+
+					<tr>
+					<td class="drop" ></td>
+					</tr>
+
+					</tbody>
+
+
+					</table>
+					<div style="margin:20px 0;"></div>
+					<div class="easyui-panel" style="padding:5px;width:100%;">
+						<a style="width:auto;" href="/sdt-hts/configChannel/{{channelID}}/1/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/1.png" </a>
+						<a style="width:auto;" href="/sdt-hts/configChannel/{{channelID}}/4/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/4.png"</a>
+						<a style="width:auto;" href="/sdt-hts/configChannel/{{channelID}}/9/" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true"> <img id="logo" src="/static/images/9.png"</a>
+
+					</div>
+				</div>
+			</div>
+</div>
+
+<style type="text/css">
+	.leftWuNL {
+		width:200px;
+		height:auto;
+		float:left;
+		border-spacing: 1px;
+		border-collapse: separate;
+	}
+	.leftWuNL #terminalList{
+		background:#E0ECFF;
+		border:solid 1px blue;
+		border-spacing: 1px;
+		border-collapse: separate;
+	}
+	.leftWuNL td{
+		background:#eee;
+	}
+	.rightWuNL {
+		float:right;
+		width:470px;
+		height:470px;
+	}
+	.rightWuNL #test{
+		background:#6ec3f2;
+		width:470px;
+		height:470px;
+		border-spacing: 1px;
+		border-collapse: separate;
+	}
+	.rightWuNL #test td{
+		background:#edf1f3;
+		color:#444;
+		text-align:center;
+		padding:2px;
+		line-height: 7.3em;
+	}
+	.rightWuNL td{
+		background:#E0ECFF;
+	}
+	.rightWuNL td.time{
+		background:#fafafa;
+		width:20px;
+	}
+	.rightWuNL td.title{
+		background:#fafafa;
+		height:20px;
+	}	
+	.rightWuNL .blank td{
+		background:#fafafa;
+		width:20px;
+		height:20px;
+	}					
+	.rightWuNL td.drop{
+		background:#fafafa;
+		width:100px;
+	}
+	.rightWuNL td.over{
+		background:#FBEC88;
+	}
+	.item{
+		text-align:center;
+		border:1px solid #499B33;
+		background:#fafafa;
+
+		color:#444;
+		width:180px;
+	}
+	.assigned{
+		border:1px solid #BC2A4D;
+		width:467px;
+		height: 467px;
+	}
+	.trash{
+		background-color:red;
+	}
+
+</style>
+<script>
+	function changeSeq(seq){
+		
+		if(seq==1){
+			console.log("seq="+seq);
+			var element = document.getElementById("test1");
+			var tr1 = document.createElement("tr");
+			tr1.setAttribute("class","alt-row");
+			for(var j=0;j<seq;j++)
+			{
+				var td1 = document.createElement("td");
+				td1.setAttribute("class","drop droppable");
+				var tn = document.createTextNode(j);
+				td1.appendChild(tn);
+				tr1.appendChild(td1);
+			}
+			element.appendChild(tr1);
+		}
+		else if(seq==4){
+			console.log("seq="+seq);
+		}
+		else if(seq==9){
+			console.log("seq="+seq);	
+		}
+	}
+
+	$(function(){
+		$('.leftWuNL .item').draggable({
+			revert:true,
+			proxy:'clone'
+		});
+		$('.rightWuNL td.drop').droppable({
+			onDragEnter:function(){
+				console.log("onDragEnter")
+				$(this).addClass('over');
+			},
+			onDragLeave:function(){
+				console.log("onDragLeave")
+				$(this).removeClass('over');
+			},
+			onDrop:function(e,source){
+				$(this).removeClass('over');
+				if ($(source).hasClass('assigned')){
+					console.log("assigned")
+					// $(this).empty().append(source);
+					$(this).append(source);
+					} else {
+						console.log("not assigned")
+						var c = $(source).clone().addClass('assigned');
+						$(this).empty().append(c);
+						c.draggable({
+							revert:true
+						});
+					}
+				}
+			});
+		$('.leftWuNL').droppable({
+			accept:'.assigned',
+			onDragEnter:function(e,source){
+				$(source).addClass('trash');
+			},
+			onDragLeave:function(e,source){
+				$(source).removeClass('trash');
+			},
+			onDrop:function(e,source){
+				$(source).remove();
+			}
+		});
+	});
+
+
+</script>
+{% endblock %}

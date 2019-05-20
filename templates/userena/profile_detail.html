@@ -1,0 +1,110 @@
+{% extends "base.html"%}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+
+
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+    height:30px;
+}
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;	      
+}
+#section {
+    width:350px;
+    float:left;
+    padding:10px;	 	 
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+   padding:5px;	 	 
+}
+</style>
+
+
+<div class="notification success png_bg" id="successMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="successMessage">
+	</div>
+</div>	
+<div class="notification error png_bg" id="errorMessageBox">
+	<a href="#" class="close"><img src="/static/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+	<div id="errorMessage">
+	</div>
+</div>
+
+<div class="clear"></div>
+
+<div class="content-box" style="width:1100px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>账户信息</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+	
+	<div class="content-box-content" >
+  <div class="white-box">
+
+
+
+<div id="nav">
+      {% if user.username == profile.user.username %}
+        <ul id="box-nav">
+          {% block profile_navigation_items %}
+            <li><a href="{% url 'userena_profile_detail' user.username %}">账户详细</a></li>
+            <li><a href="{% url 'userena_profile_edit' user.username %}">编辑信息</a></li>
+            <li><a href="{% url 'userena_password_change' user.username %}">修改密码</a></li>
+          {% endblock %}
+        </ul>
+      {% endif %}
+</div>
+
+<div id="section">
+<h2><img class="mugshot" src="{{ profile.get_mugshot_url }}" alt="Your mugshot" /></h2>
+<dl>
+   <dd>{{ profile.user.username }}</dd>
+   <dd>{{ profile.user.get_full_name }}</dd>
+   <dd>{{ profile.user.email }}</dd>
+</dl>
+</div>
+
+<div id="footer">
+
+</div>
+
+
+
+
+
+
+		
+	</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->	
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/channels.js"></script>
+<script src="/static/js/common.js"></script>
+{% endblock %}
+{% block repositories_current %}current{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/easyui.css">
+<link rel="stylesheet" type="text/css" href="/static/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/demo.css">
+<link rel="stylesheet" type="text/css" href="/static/themes/color.css">
+<!-- <script type="text/javascript" src="/static/jquery.min.js"></script> -->
+<script type="text/javascript" src="/static/jquery.easyui.min.js"></script>
+
+
+<div class="content-box" style="min-width:300px;"><!-- Start Content Add repo -->
+
+	<div class="content-box-header">
+
+		<h3>配置抓包服务器</h3>
+
+		<div class="clear"></div>
+
+	</div> <!-- End .content-box-header -->
+
+	<div class="content-box-content">
+
+		<table>
+			<tr>
+				
+	
+					<td style="width:15%">是否启用抓包服务器:</td>
+					<td style="width:10%"><input class="easyui-switchbutton" onText="开" offText="关" id="packetGrepper" {% ifequal packetGrepper.active True %} checked {% endifequal %}   ></td>
+					<td style="width:35%"> <label> 抓包服务器IP*: </label><input class="text-input small-input" id="id_ip" maxlength="200" name="ip" type="text" value="{{packetGrepper.ip}}"> </input> </td>
+					<td >
+					<a onclick="pushToDjango()" value="保存" class="easyui-linkbutton c6" style="width:120px;float:center">保存</a>
+					</td>
+			
+			
+			</tr>
+		</table>
+
+
+	</div> <!-- End .content-box-content -->
+
+</div> <!-- End .content-box -->
+
+
+
+
+
+
+
+{% endblock %}
